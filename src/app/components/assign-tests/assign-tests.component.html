@@ -1,0 +1,47 @@
+<div class="test-details">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">{{ test?.title }}</h5>
+      <div class="row">
+        <div class="col">
+          <p class="card-text">
+            <strong>Subject:</strong> {{ test?.subject }}
+          </p>
+        </div>
+        <div class="col">
+          <p class="card-text">
+            <strong>Grade:</strong> {{ test?.grade }}
+          </p>
+        </div>
+        <div class="col">
+          <p class="card-text">
+            <strong>Exam Date:</strong> {{ test?.examStartDate | date: 'longDate' }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<div class="assign-students">
+  <div class="row">
+    <div class="col">
+      <h6>Available Students</h6>
+      <select multiple class="form-control" [(ngModel)]="selectedAvailable">
+        <option *ngFor="let student of availableStudents" [ngValue]="student">{{ student.fullName }}</option>
+      </select>
+    </div>
+    <div class="col-md-auto align-self-center">
+      <button class="btn btn-primary" (click)="assignSelected()">Add &gt;</button>
+      <button class="btn btn-primary" (click)="removeSelected()">&lt; Remove</button>
+      <button class="btn btn-secondary" (click)="assignAll()">Add All &gt;&gt;</button>
+      <button class="btn btn-secondary" (click)="removeAll()">&lt;&lt; Remove All</button>
+    </div>
+    <div class="col">
+      <h6>Assigned Students</h6>
+      <select multiple class="form-control" [(ngModel)]="selectedAssigned">
+        <option *ngFor="let student of assignedStudents" [ngValue]="student">{{ student.fullName }}</option>
+      </select>
+    </div>
+  </div>
+</div>

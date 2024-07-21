@@ -1,0 +1,286 @@
+<div class="container mt-5">
+  <!-- Create a Question button -->
+  <div class="d-flex justify-content-start mb-4">
+    <button type="button" class="btn btn-success" routerLink="/createquestion">Create a Question</button>
+  </div>
+
+  <!-- Card for Search -->
+  <!--<div class="card">
+    <div class="card-header">
+      <h4 class="card-title">Search Questions</h4>
+    </div>
+    <div class="card-body">
+      <form class="row g-3">
+        <div class="col-auto">-->
+  <!--<input type="text" class="form-control" id="class" placeholder="Class" [(ngModel)]="classId" name="class">-->
+  <!--<ng-select [items]="grades"
+               bindLabel="value"
+               bindValue="key"
+               placeholder="type to Class"
+               [(ngModel)]="model.gradeId" name="gread" (change)="onGradeChange(model.gradeId)" required>
+    </ng-select>
+  </div>
+  <div class="col-auto">-->
+  <!--<input type="text" class="form-control" id="subject" placeholder="Subject" [(ngModel)]="subjectId" name="subject">-->
+  <!--<ng-select [items]="subjects"
+                     bindLabel="value"
+                     bindValue="key"
+                     placeholder="type to subject"
+                     [(ngModel)]="model.subjectId" name="subjects">
+          </ng-select>
+        </div>
+        <div class="col-auto">
+          <button type="button" class="btn btn-primary mb-3" (click)="search()">Search</button>
+        </div>
+      </form>
+    </div>
+  </div>-->
+  <!-- Assuming this is part of an Angular component -->
+  <!--<div class="search-container">
+    <div class="search-header">
+      <input type="text" placeholder="Search" />
+      <button>Advanced Search</button>
+    </div>
+
+    <div class="advanced-search" *ngIf="showAdvancedSearch">
+      <div class="match-rules">
+        <label>
+          Match
+          <select [(ngModel)]="matchCriteria">
+            <option value="all">all</option>
+            <option value="any">any</option>
+          </select>
+          of the following rules:
+        </label>
+      </div>-->
+  <!-- This will be repeated for each filter rule -->
+  <!--<div class="filter-rule" *ngFor="let rule of filterRules; let i = index">
+    <select [(ngModel)]="rule.field">
+      <option value="address">Address</option>
+      <option value="productName">Product Name</option>-->
+  <!-- Add more fields as needed -->
+  <!--</select>
+
+  <select [(ngModel)]="rule.operation">
+    <option value="contains">contains</option>
+    <option value="equals">is</option>-->
+  <!-- Add more operations as needed -->
+  <!--</select>
+
+    <input type="text" [(ngModel)]="rule.value" />
+
+    <button (click)="addRule()">+</button>
+    <button (click)="removeRule(i)">🗑</button>
+  </div>
+
+  <div class="select-date">
+    <label>
+      Select Date
+      <select [(ngModel)]="dateSelection">
+        <option value="customDate">Custom Date</option>-->
+  <!-- Add more date options as needed -->
+  <!--</select>
+        </label>
+        <input type="date" [(ngModel)]="startDate" />
+        <input type="date" [(ngModel)]="endDate" />
+      </div>
+
+      <div class="actions">
+        <button (click)="saveFilter()">Save Filter</button>
+        <button (click)="applyFilter()">Apply</button>
+      </div>
+    </div>
+  </div>-->
+
+  <div class="question-container">
+    <!-- Include the Search Component -->
+    <app-question-search (searchEvent)="handleSearch($event)"></app-question-search>
+
+    <!-- The rest of your QuestionComponent's template goes here -->
+    <!-- This could include a list of questions, buttons for creating a new question, etc. -->
+  </div>
+
+
+  <!-- Card for Search Results -->
+  <!--<div class="card mt-4" *ngIf="questions.length">
+    <div class="card-header">
+      <h4 class="card-title">Search Results</h4>
+    </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Text</th>
+            <th scope="col">Class</th>
+            <th scope="col">Subject</th>-->
+  <!-- Add other columns as necessary -->
+  <!--</tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let question of questions">
+      <th scope="row">{{ question.id }}</th>
+      <td>{{ question.text }}</td>
+      <td>{{ question.class }}</td>
+      <td>{{ question.subject }}</td>-->
+  <!-- Add other details as necessary -->
+  <!--</tr>
+        </tbody>
+      </table>
+    </div>
+  </div>-->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-6 mb-4" *ngFor="let question of questions">
+        <div class="card h-100" [ngClass]="{'active-card': question.isActive, 'inactive-card': !question.isActive}"
+             (mouseover)="highlightCard($event, true)" (mouseleave)="highlightCard($event, false)">
+          <div class="card-body">
+            <h5 class="card-title">{{question.id}}</h5>
+            <p class="card-text" [title]="question.text">{{question.text | slice:0:50}}...</p>
+            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#questiondetailssModal" (click)="viewQuestion(question.id)">View Question</a>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">{{getDifficultyText(question.difficulty)}}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- The Modal -->
+  <div class="modal" id="questiondetailssModal">
+    <div class="modal-dialog modal-70w">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">View Question</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Create Question</h5>
+              <form class="row g-3" [formGroup]="questionForm">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="inputClass" class="form-label">Class</label>
+                    <!--<input type="text" class="form-control" id="inputClass" autocomplete="off" placeholder="Class*">-->
+                    <ng-select [items]="grades"
+                               bindLabel="value"
+                               bindValue="key"
+                               placeholder="type to Class"
+                               [(ngModel)]="modifiedQuestionData.gradeId" name="gread" (change)="onGradeChange(model.gradeId)" required>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="inputSubject" class="form-label">Subject</label>
+                    <ng-select [items]="subjects"
+                               bindLabel="value"
+                               bindValue="key"
+                               placeholder="type to subject"
+                               [(ngModel)]="modifiedQuestionData.subjectId" name="subjects" (change)="onTopicChange(model.subjectId)">
+                    </ng-select>
+
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="inputTopic" class="form-label">Topic</label>
+                    <ng-select [items]="topics"
+                               bindLabel="value"
+                               bindValue="key"
+                               placeholder="type to topics"
+                               [(ngModel)]="modifiedQuestionData.topicId" name="topics">
+                    </ng-select>
+
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="inputDifficultylevel " class="form-label">Difficulty level</label>
+                    <ng-select [items]="difficultyLevels"
+                               bindLabel="value"
+                               bindValue="key"
+                               placeholder="type to dificultylevels"
+                               [(ngModel)]="modifiedQuestionData.difficulty" name="Dificulty level">
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="inputquestionType" class="form-label">Question Type</label>
+                    <ng-select [items]="questionTypes"
+                               bindLabel="value"
+                               bindValue="key"
+                               placeholder="type to questionTypes"
+                               [(ngModel)]="modifiedQuestionData.typeId" name="Question Type">
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="inputTags" class="form-label">Tags</label>
+                    <tag-input [(ngModel)]='modifiedQuestionData.tags'
+                               theme="bootstrap"
+                               [maxItems]="4" [onlyFromAutocomplete]="true"
+                               placeholder="Insert a inputTags" name="Tag">
+                      <tag-input-dropdown [autocompleteItems]="autocompleteItemsAsObjects"
+                                          [displayBy]="'name'"
+                                          [identifyBy]="'id'">
+                      </tag-input-dropdown>
+                    </tag-input>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="inputWeightAge" class="form-label">Weight Age</label>
+                    <input class="form-control" type="text" placeholder="WeightAge" [(ngModel)]="modifiedQuestionData.weightage" name="WeightAge" required />
+                  </div>
+                </div>
+
+                <div class="col-8">
+                  <!--<ckeditor [editor]="Editor" formControlName="questionText" id="ck1" name="Editor"></ckeditor>-->
+                  <!--<ckeditor [(ngModel)]="editorData"
+                  [editor]="Editor"></ckeditor>-->
+                  <label for="inputQuestion" class="form-label">Question</label>
+                  <ckeditor [(ngModel)]="modifiedQuestionData.text"
+                            [editor]="Editor" name="ckQuestion"
+                            [config]="{
+    toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote']
+  }"></ckeditor>
+
+                </div>
+
+                <label for="inputQuestion" class="form-label">Choices</label>
+                <div class="row">
+                  <app-option-control [options]="modifiedQuestionData.options" (optionsChange)="handleOptionsChange($event)"></app-option-control>
+                </div>
+                <label for="inputQuestion" class="form-label">Answer</label>
+                <ckeditor [(ngModel)]="modifiedQuestionData.explanation"
+                          [editor]="Editor" name="ckAnswer"
+                          [config]="{
+    toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote']
+  }"></ckeditor>
+                <div class="col-12">
+                  <button type="button" class="btn btn-primary me-2" (click)="update()">update</button>
+                  <button class="btn btn-secondary">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- You would dynamically generate the list here -->
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

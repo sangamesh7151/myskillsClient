@@ -1,0 +1,207 @@
+<div class="container my-5">
+
+  <!--<div class="row control-box">
+    <div class="col-lg-8">
+      <div class="search-box">
+        <input type="search" class="form-control w-80" placeholder="Search" (input)="onSearch($event.target.value)">
+      </div>
+    </div>
+    <div class="col-lg-4 pe-lg-5">
+      <ul class="nav flex-column flex-lg-row justify-content-end">
+        <li *ngIf="canCreateTest" class="nav-item toolbaritem">
+          <a class="nav-link" href="javascript:;" (click)="navigateToCreateTest()">
+            <i class="fa fa-plus-circle"></i> Create Test
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>-->
+
+  <div class="row control-box">
+    <div class="col-lg-8">
+      <div class="search-box">
+        <app-search-box (searchChange)="onSearchChanged($event)" placeholder="Search"></app-search-box>
+      </div>
+    </div>
+    <div class="col-lg-4 pe-lg-5">
+      <ul class="nav flex-column flex-lg-row justify-content-end">
+        <li *ngIf="canCreateTest" class="nav-item toolbaritem">
+          <a class="nav-link" href="javascript:;" (click)="navigateToCreateTest()">
+            <i class="fa fa-plus-circle"></i> Create Test
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="javascript:void(0);" [class.active]="activeTab === TestStatusViewModel.Upcoming" (click)="selectTab(TestStatusViewModel.Upcoming)">Upcoming Tests</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="javascript:void(0);" [class.active]="activeTab === TestStatusViewModel.InProgress" (click)="selectTab(TestStatusViewModel.InProgress)">In Progress</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="javascript:void(0);" [class.active]="activeTab === TestStatusViewModel.Completed" (click)="selectTab(TestStatusViewModel.Completed)">Completed</a>
+    </li>
+  </ul>
+
+  <!-- Tab Content -->
+  <div id="myTabContent" class="tab-content">
+    <!-- Upcoming Tests Tab -->
+    <div class="tab-pane fade" [class.show]="activeTab === TestStatusViewModel.Upcoming" [class.active]="activeTab === TestStatusViewModel.Upcoming" id="upcomingTests" role="tabpanel">
+      <ngx-datatable *ngIf="activeTab === TestStatusViewModel.Upcoming"
+                     [loadingIndicator]="loadingIndicator"
+                     class="material colored-header sm table-x table-striped table-hover"
+                     [rows]="filteredUpcomingTests"
+                     [columns]="columns"
+                     [columnMode]="'force'"
+                     [headerHeight]="50"
+                     [footerHeight]="50"
+                     [rowHeight]="'auto'">
+      </ngx-datatable>
+    </div>
+
+    <!-- In Progress Tests Tab -->
+    <div class="tab-pane fade" [class.show]="activeTab === TestStatusViewModel.InProgress" [class.active]="activeTab === TestStatusViewModel.InProgress" id="inProgress" role="tabpanel">
+      <ngx-datatable *ngIf="activeTab === TestStatusViewModel.InProgress"
+                     class="material colored-header sm table-x table-striped table-hover"
+                     [loadingIndicator]="loadingIndicator"
+                     [rows]="filteredInProgressTests"
+                     [columns]="columns"
+                     [columnMode]="'force'"
+                     [headerHeight]="50"
+                     [footerHeight]="50"
+                     [rowHeight]="'auto'">
+      </ngx-datatable>
+    </div>
+
+    <!-- Completed Tests Tab -->
+    <div class="tab-pane fade" [class.show]="activeTab === TestStatusViewModel.Completed" [class.active]="activeTab === TestStatusViewModel.Completed" id="completed" role="tabpanel">
+      <ngx-datatable *ngIf="activeTab === TestStatusViewModel.Completed"
+                     class="material colored-header sm table-x table-striped table-hover"
+                     [rows]="filteredCompletedTests"
+                     [loadingIndicator]="loadingIndicator"
+                     [columns]="columns"
+                     [columnMode]="'force'"
+                     [headerHeight]="50"
+                     [footerHeight]="50"
+                     [rowHeight]="'auto'">
+      </ngx-datatable>
+    </div>
+  </div>
+
+
+  <!-- Templates for ngx-datatable (common for all tabs if applicable) -->
+  <ng-template #attemptTemplate let-value="value" let-row="row">
+    <a href="javascript:void(0);" (click)="showAttemptModal(row.id)" *ngIf="canTakeTest">{{ row.attemptCount }} Attempts</a>
+  </ng-template>
+
+  <ng-template #assignTemplate let-row="row">
+    <a href="javascript:;" data-bs-toggle="modal" (click)="showAssignedUsers(row)">Assign Students</a>
+  </ng-template>
+
+  <ng-template #actionsTemplate let-row="row" let-i="rowIndex">
+    <div>
+      <button *ngIf="isEditingIndex === i && canEditTests" class="btn btn-success btn-sm" (click)="saveTest(row, i)">
+        <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+      </button>
+      <button *ngIf="isEditingIndex !== i && canEditTests && activeTab === TestStatusViewModel.Upcoming" class="btn btn-info btn-sm" (click)="editTest(row.id)">
+        <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
+      </button>
+      <button *ngIf="canDeleteTests && activeTab === TestStatusViewModel.Upcoming" class="btn btn-danger btn-sm" (click)="removeTest(row.id)">
+        <i class="fa fa-trash-o" aria-hidden="true"></i> Remove
+      </button>
+      <button *ngIf="canViewTests" class="btn btn-primary btn-sm" (click)="viewQuestions(row)">
+        <i class="fa fa-eye" aria-hidden="true"></i> View Questions
+      </button>
+      <button *ngIf="canTakeTest && activeTab === TestStatusViewModel.InProgress" class="btn btn-primary btn-sm" (click)="onStartTest(row.id, row.isResume,row.attemptId)">
+        <i class="fa fa-play" aria-hidden="true"></i> {{ row.isResume ? 'Resume Test' : 'Start Test' }}
+      </button>
+
+    </div>
+  </ng-template>
+
+
+  <div class="modal" id="assignStudentsModal" #assignStudentsModalRef>
+    <div class="modal-dialog custom-modal-width">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Assigned Students</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="hideModal()">&times;</button>
+        </div>
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <app-assign-tests [test]="selectedTest" [availableStudents]="unassignedStudents" [assignedStudents]="assignedStudents" (updateAssignedStudents)="updateAssignedStudents($event)"></app-assign-tests>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="saveAssignments()">Save</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="hideModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Questions Modal -->
+  <div class="modal" id="viewQuestionsModal" #viewQuestionsModalRef>
+    <div class="modal-dialog custom-modal-width-viewquestion">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Questions</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="hideQuestionModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <app-view-questions [questionViewModels]="questionModel"></app-view-questions>
+
+          <!-- Here you would dynamically generate or display questions -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="hideQuestionModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal" id="attemptModal" #attemptModalRef>
+  <div class="modal-dialog custom-modal-width">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Test Attempts</h5>
+        <button type="button" class="close" (click)="hideAttemptModalRefModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <app-test-attempt [learnerId]="learnerId" [testId]="selectedTestId"></app-test-attempt>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="hideAttemptModalRefModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" bsModal #testEditorModal="bs-modal" (onHidden)="onTestEditorModalHidden()" [config]="{backdrop: 'static'}" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 *ngIf="!testId" class="modal-title float-start"><i class="fa fa-plus"></i> Create New Test</h4>
+        <h4 *ngIf="testId" class="modal-title float-start"><i class="fa fa-edit"></i> Edit Test</h4>
+        <button type="button" class="btn-close float-end fs-sm" title="Close" (click)="testEditorModal.hide()"></button>
+      </div>
+      <div class="modal-body">
+        <app-createtests #createtestsComponent [testId]="testId" (refreshNeeded)="refreshData()"></app-createtests>
+      </div>
+    </div>
+  </div>
+</div>
+

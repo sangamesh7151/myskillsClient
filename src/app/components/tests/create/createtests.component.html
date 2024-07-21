@@ -1,0 +1,286 @@
+<div class="row">
+  <div class="col-md-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <!--<h6 class="card-title">{{ isEditMode ? 'Edit Test' : 'Create Test' }}</h6>-->
+
+        <aw-wizard #wizardForm>
+
+          <!-- Step 1: Create or Edit Test -->
+          <aw-wizard-step stepTitle="{{isEditMode ? 'Edit Test Details' : 'Create New Test'}}">
+            <div class="row justify-content-center align-items-center h-100">
+              <div class="col-md-8">
+                <form #testForm="ngForm" (ngSubmit)="form1Submit(testForm)">
+                  <div class="form-group mb-3">
+                    <label for="title">Test Name</label>
+                    <input type="text" class="form-control" id="title" [(ngModel)]="testModel.title" name="title" #title="ngModel" required placeholder="Enter test name">
+                    <div *ngIf="isForm1Submitted && title.errors?.required" class="invalid-feedback d-block">
+                      Test Name is required.
+                    </div>
+                  </div>
+
+                  <div class="form-group mb-3">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" [(ngModel)]="testModel.description" name="description" rows="3" #description="ngModel" placeholder="Test description"></textarea>
+                    <!-- Description is optional; no validation message needed -->
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="duration">Duration (In Min.)</label>
+                      <input type="number" class="form-control" id="duration" [(ngModel)]="testModel.timeDuration" name="duration" #duration="ngModel" required>
+                      <div *ngIf="isForm1Submitted && duration.errors?.required" class="invalid-feedback d-block">
+                        Duration is required.
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="totalQuestions">Total Questions</label>
+                      <input type="number" class="form-control" id="totalQuestions" [(ngModel)]="testModel.totalQuestions" name="totalQuestions" #totalQuestions="ngModel" required>
+                      <div *ngIf="isForm1Submitted && totalQuestions.errors?.required" class="invalid-feedback d-block">
+                        Total Questions is required.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group d-flex justify-content-end mt-2">
+                    <button class="btn btn-primary" type="submit">Next</button>
+                  </div>
+                </form>
+
+              </div>
+            </div>
+          </aw-wizard-step>
+
+
+
+
+          <!-- Step 2: Test Settings -->
+          <aw-wizard-step stepTitle="Test Settings">
+            <form #settingsForm="ngForm" (ngSubmit)="form2Submit(settingsForm)">
+              <div class="row">
+                <!-- Left column for checkboxes and max attempts -->
+                <div class="col-md-6">
+                  <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="showFinalResult" [(ngModel)]="testModel.showFinalResult" name="showFinalResult">
+                    <label class="form-check-label" for="showFinalResult">Show Result</label>
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="maxAttempts">Maximum Attempts</label>
+                    <input type="number" class="form-control" id="maxAttempts" [(ngModel)]="testModel.maxAttempts" name="maxAttempts" #maxAttempts="ngModel" required>
+                    <div *ngIf="isForm2Submitted && maxAttempts.errors?.required" class="invalid-feedback d-block">
+                      Maximum Attempts is required.
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="passPercentage">Pass Percentage</label>
+                    <input type="number" class="form-control" id="passPercentage" [(ngModel)]="testModel.passPercentage" name="passPercentage" #passPercentage="ngModel" required>
+                    <div *ngIf="isForm2Submitted && passPercentage.errors?.required" class="invalid-feedback d-block">
+                      Pass Percentage is required.
+                    </div>
+                  </div>
+                </div>
+                <!-- Right column for custom messages -->
+                <div class="col-md-6">
+                  <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="showFinalScore" [(ngModel)]="testModel.showFinalScore" name="showFinalScore">
+                    <label class="form-check-label" for="showFinalScore">Show Score</label>
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="messageOnSubmit">Message On Submit</label>
+                    <input type="text" class="form-control" id="messageOnSubmit" [(ngModel)]="testModel.messageOnSubmit" name="messageOnSubmit" #messageOnSubmit="ngModel">
+                    <!-- Optional, so no validation message here -->
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="examStartDate">Exam Start Date</label>
+                    <input type="date" class="form-control" id="examStartDate"
+                           [(ngModel)]="testModel.examStartDate"
+                           (ngModelChange)="onStartDateChange($event)"
+                           name="ExamStartDate"
+                           [min]="getFormattedDate(currentDate)"
+                           [max]="getFormattedDate(maxDate)"
+                           required #examStartDate="ngModel">
+                    <div *ngIf="isForm2Submitted && examStartDate.errors?.required" class="invalid-feedback d-block">
+                      Exam Start Date is required.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="examEndDate">Exam End Date</label>
+                    <input type="date" class="form-control" id="examEndDate"
+                           [(ngModel)]="testModel.examEndDate"
+                           name="ExamEndDate"
+                           [min]="testModel.examStartDate"
+                           [max]="getFormattedDate(maxDate)"
+                           required #examEndDate="ngModel">
+                    <div *ngIf="isForm2Submitted && (examEndDate.errors?.required || examEndDate.errors?.max)" class="invalid-feedback d-block">
+                      Exam End Date is required and cannot be more than 3 months from the current date.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- Row for Pass and Fail Feedback Messages -->
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="passFeedback">Pass Feedback Message</label>
+                    <textarea class="form-control" id="passFeedback" [(ngModel)]="testModel.passFeedback" name="passFeedback" #passFeedback="ngModel" rows="4"></textarea>
+                    <!-- Optional, so no validation message here -->
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="failFeedback">Fail Feedback Message</label>
+                    <textarea class="form-control" id="failFeedback" [(ngModel)]="testModel.failFeedback" name="failFeedback" #failFeedback="ngModel" rows="4"></textarea>
+                    <!-- Optional, so no validation message here -->
+                  </div>
+                </div>
+              </div>
+              <!-- Buttons -->
+              <div class="row justify-content-center mt-2">
+                <div class="form-group d-flex justify-content-end mt-2">
+                  <button class="btn btn-secondary me-2" type="button" awPreviousStep>Back</button>
+                  <button class="btn btn-primary" type="submit">Next</button>
+                </div>
+              </div>
+            </form>
+          </aw-wizard-step>
+
+          <aw-wizard-step stepTitle="Add Topics">
+            <form #topicsForm="ngForm" (ngSubmit)="form3Submit(topicsForm)">
+              <div class="row mb-3">
+                <!-- Class Selection -->
+                <div class="col-md-6">
+                  <label for="classSelection" class="form-label">Class</label>
+                  <ng-select [items]="grades"
+                             bindLabel="value"
+                             bindValue="key"
+                             placeholder="Select Class"
+                             [(ngModel)]="testModel.gradeId"
+                             name="grade"
+                             (change)="onGradeChange(testModel.gradeId)"
+                             #classSelection="ngModel" required>
+                  </ng-select>
+                  <div *ngIf="isForm3Submitted && classSelection.invalid" class="text-danger">
+                    Class selection is required.
+                  </div>
+                </div>
+                <!-- Subject Selection -->
+                <div class="col-md-6">
+                  <label for="subjectSelection" class="form-label">Subject</label>
+                  <ng-select [items]="subjects"
+                             bindLabel="value"
+                             bindValue="key"
+                             placeholder="Select Subject"
+                             [(ngModel)]="testModel.subjectId"
+                             name="subject"
+                             (change)="onSubjectChange(testModel.subjectId)"
+                             #subjectSelection="ngModel" required>
+                  </ng-select>
+                  <div *ngIf="isForm3Submitted && subjectSelection.invalid" class="text-danger">
+                    Subject selection is required.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Topics -->
+              <div class="row mb-3">
+                <!-- Inside your <aw-wizard-step> and <form> tags -->
+                <div class="row mb-3">
+                  <div *ngFor="let topic of topics; let i = index" class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="card mb-4 shadow-sm h-100"
+                         [ngClass]="{'border-primary': !topic.selected, 'text-white bg-secondary': topic.selected}">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ topic.description }}</h5>
+                        <div class="card-links">
+                          <div class="card-links">
+                            <button type="button" class="btn btn-light btn-sm"
+                                    [ngClass]="{'active': topic.difficulty === 'easy'}"
+                                    (click)="setDifficulty(topic, 'easy')">
+                              Easy
+                            </button>
+                            <button type="button" class="btn btn-light btn-sm"
+                                    [ngClass]="{'active': topic.difficulty === 'medium'}"
+                                    (click)="setDifficulty(topic, 'medium')">
+                              Medium
+                            </button>
+                            <button type="button" class="btn btn-light btn-sm"
+                                    [ngClass]="{'active': topic.difficulty === 'difficult'}"
+                                    (click)="setDifficulty(topic, 'difficult')">
+                              Difficult
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Validation message for topics selection -->
+                <div *ngIf="isForm3Submitted && !isAtLeastOneTopicSelected()" class="text-danger">
+                  Please select at least one topic and set a difficulty.
+                </div>
+
+                <!-- Buttons aligned to the left -->
+                <div class="form-group d-flex justify-content-end mt-2">
+                  <button class="btn btn-secondary me-2" type="button" awPreviousStep>Back</button>
+                  <button class="btn btn-primary" type="submit">Next</button>
+                </div>
+              </div>
+
+              <!-- Buttons aligned to the left -->
+              <!--<div class="form-group d-flex justify-content-start mt-2">
+                <button class="btn btn-secondary me-2" type="button" awPreviousStep>Back</button>
+                <button class="btn btn-primary" type="submit">Next</button>
+              </div>-->
+            </form>
+          </aw-wizard-step>
+
+
+          <aw-wizard-step stepTitle="Assign Test">
+            <form #testForm="ngForm">
+              <app-assign-tests [test]="testModel" [availableStudents]="unassignedStudents" [assignedStudents]="assignedStudents" (updateAssignedStudents)="updateAssignedStudents($event)"></app-assign-tests>
+              <div class="form-group d-flex justify-content-end mt-2">
+                <button class="btn btn-secondary me-2" type="button" awPreviousStep>Back</button>
+                <button class="btn btn-primary" type="button" (click)="form4Submit(testForm)">Next</button>
+              </div>
+
+            </form>
+
+          </aw-wizard-step>
+
+
+
+
+          <aw-wizard-step stepTitle="finish">
+            <div class="text-center">
+              <input class="form-check-input" type="checkbox" id="isActive" [(ngModel)]="testModel.isPublished" name="isPublished">
+              <label class="form-check-label" for="isActive">Publish Test</label>
+            </div>
+            <div class="text-center">
+              <i data-feather="check-circle" appFeatherIcon class="text-success mt-4 mb-2 icon-xxl"></i>
+              <h3 class="text-muted mb-3">Thank you!</h3>
+              <p class="w-75 mx-auto mb-4 text-muted">Please Create Test</p>
+            </div>
+            <!--<div class="d-flex justify-content-center mt-2">
+              <button class="btn btn-secondary me-2" type="button" awPreviousStep>Back</button>
+              <button class="btn btn-success" type="button" (click)="finishFunction()">{{isEditMode ? 'Update Test' : 'Create Test'}}</button>
+            </div>-->
+
+            <div class="form-group d-flex justify-content-end mt-2">
+              <button class="btn btn-secondary me-2" type="button" awPreviousStep>Back</button>
+              <button class="btn btn-success" type="button" (click)="finishFunction()">{{isEditMode ? 'Update Test' : 'Create Test'}}</button>
+            </div>
+          </aw-wizard-step>
+
+        </aw-wizard>
+
+      </div>
+    </div>
+  </div> <!-- col -->
+</div> <!-- row -->

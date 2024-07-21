@@ -1,0 +1,22 @@
+// app-question-control.component.scss
+.question-container {
+  margin-bottom: 1rem;
+
+  .ck-editor__editable {
+    min-height: 3rem; // Adjust as needed
+  }
+
+  .option-container {
+    display: flex;
+    align-items: center;
+    margin-top: .5rem;
+
+    ckeditor {
+      flex-grow: 1;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 1rem; // Space between checkbox and option text
+    }
+  }
+}

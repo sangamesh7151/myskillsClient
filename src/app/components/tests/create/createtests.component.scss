@@ -1,0 +1,52 @@
+/*.highlight {
+  font-weight: bold;
+  color: #007bff;*/ /* Bootstrap primary color for example */
+/*}*/
+
+/* Highlight styling for card with selected difficulty */
+.highlight-card {
+  border: 1px solid #007bff; /* Bootstrap primary color for example */
+  box-shadow: 0 2px 4px rgba(0, 123, 255, .5); /* Slightly larger shadow with a primary color tint */
+}
+
+
+/* Additional Styling for the Topics Cards */
+.card.border-primary {
+  border-color: #007bff !important; /* Bootstrap primary color */
+}
+
+
+
+
+
+/*.card-body {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;*/ /* Smooth transition for hover effect */
+/*}
+
+.card:hover .card-body {
+  transform: translateY(-5px);*/ /* Slight lift effect on hover */
+  /*box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);*/ /* Shadow effect on hover */
+/*}
+
+
+.bg-light-blue {
+  background-color: #d0e7ff;*/ /* Light blue background color */
+/*}
+
+.card-links a {
+  cursor: pointer;
+  color: #007bff;*/ /* Bootstrap primary color */
+/*}
+
+.card-links a.highlight {
+  font-weight: bold;
+  text-decoration: underline;
+}*/
+.highlight {
+  color: #007bff; /* Bootstrap primary color for example */
+  font-weight: bold;
+}
+
+.bg-light-blue {
+  background-color: lightblue; /* Ensure this color is visible */
+}

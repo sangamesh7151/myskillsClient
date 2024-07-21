@@ -1,0 +1,135 @@
+<ng-container *ngIf="!showTestResult">
+  <!-- Display the main view if test result is not shown -->
+  <div class="accordion" id="accordionTestAttempts">
+    <!-- Iterate over test attempts -->
+   
+    <div class="accordion-item mb-3"
+         *ngFor="let attempt of attemptData; let index = index">
+      <div class="bg-light p-2 mb-2 rounded d-flex justify-content-between align-items-center">
+        <span class="text-secondary">{{ attempt?.totalQuestions }} questions</span>
+        <span class="text-secondary">{{ attempt?.duration }}</span>
+        <span class="badge bg-info text-dark">{{ attempt?.passPercentage }}% correct required to pass</span>
+      </div>
+      <button class="accordion-button collapsed custom-border w-100"
+              type="button"
+              data-bs-toggle="collapse"
+              [attr.data-bs-target]="'#collapse' + index"
+              aria-expanded="false"
+              [attr.aria-controls]="'collapse' + index" *ngIf="attempt">
+        <!-- Display the content in a card-like structure -->
+        <div class="card w-100" style="border: none; margin: 0;">
+          <div class="card-body">
+            <div class="row d-flex justify-content-between align-items-center">
+              <!-- Graph at the first place -->
+              <div class="col-md-1">
+                <canvas baseChart
+                        [datasets]="attempt?.chartOptions?.chartData"
+                        [labels]="attempt?.chartOptions?.chartLabels"
+                        [options]="chartOptions"
+                        [legend]="false"
+                        [type]="attempt?.chartOptions?.chartType"></canvas>
+              </div>
+
+              <!-- Attempt information displayed horizontally -->
+              <div class="col-md-9 d-flex justify-content-around align-items-center">
+                <div class="d-flex flex-column text-center">
+                  <strong [ngStyle]="{
+                      color: attempt?.status === 'Passed!' ? '#ACD2CC' : '#FFE0CB'
+                    }">
+                    {{ attempt?.status }}
+                  </strong>
+                </div>
+
+                <div class="d-flex flex-column text-center">
+                  <strong>{{ attempt?.score }}% correct</strong>
+                </div>
+
+                <div class="d-flex flex-column text-center">
+                  <strong>{{ attempt?.timeTaken }}</strong>
+                </div>
+
+                <div class="d-flex flex-column text-center">
+                  <strong>{{ attempt?.date }}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </button>
+
+      <!-- Accordion content when expanded -->
+      <div [id]="'collapse' + index"
+           class="accordion-collapse collapse"
+           [attr.aria-labelledby]="'heading' + index"
+           data-bs-parent="#accordionTestAttempts">
+        <div class="accordion-body">
+          <!-- Summary Section -->
+          <div class="row">
+            <!-- Donut Chart -->
+            <div class="col-md-4 text-center">
+              <!--<canvas baseChart
+                [datasets]="chartData"
+                [labels]="chartLabels"
+                [options]="chartOptions"
+                [legend]="false"
+                [type]="chartType"></canvas>-->
+            </div>
+
+            <!-- Exam Statistics -->
+            <div class="col-md-8">
+              <h5>
+                Attempt {{ index + 1 }}: {{ attempt?.status }} ({{ attempt?.score }}% correct)
+              </h5>
+              <p>
+                {{ attempt?.score }}% correct ({{ attempt?.correctAnswers }}/{{ attempt?.totalQuestions }}) |
+                {{ attempt?.timeTaken }} | {{ attempt?.date }}
+              </p>
+              <button class="btn btn-primary"
+                      (click)="showTestResultComponent(attempt.testId, attempt.version)">
+                Review Questions
+              </button>
+            </div>
+          </div>
+
+          <!-- Knowledge Areas Section -->
+          <h5>Knowledge Areas</h5>
+          <div style="width: 80%; margin: auto;">
+            <!-- 80% width, centered -->
+            <div *ngFor="let area of attempt?.knowledgeAreas">
+              <p>
+                {{ area.name }} ({{ area.totalQuestions }} questions)
+              </p>
+              <div class="progress">
+                <div class="progress-bar"
+                     role="progressbar"
+                     style="width: {{ area.correctPercentage }}%; background-color: #ACD2CC;"
+                     aria-valuenow="{{ area.correctPercentage }}"
+                     aria-valuemin="0"
+                     aria-valuemax="100">
+                  {{ area.correctPercentage }}%
+                </div>
+                <div class="progress-bar"
+                     role="progressbar"
+                     style="width: {{ area.wrongPercentage }}%; background-color: #FFE0CB;"
+                     aria-valuenow="{{ area.wrongPercentage }}"
+                     aria-valuemin="0"
+                     aria-valuemax="100">
+                  {{ area.wrongPercentage }}%
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<!-- Test Result Component -->
+<ng-container *ngIf="showTestResult">
+  <a class="btn btn-secondary"
+     (click)="hideTestResultComponent()">
+    Return to Review
+  </a>
+  <app-test-result [testId]="currentTestId" [attemptId]="currentAttemptId" [currentUser]="learnerId"></app-test-result>
+</ng-container>

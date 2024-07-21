@@ -1,0 +1,30 @@
+<!-- topic-difficulty-analysis-report.component.html -->
+<div *ngIf="topicDifficultyAnalysisReport && topicDifficultyAnalysisReport.length; else noDataTemplate">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Topic Name</th>
+        <th scope="col">Difficulty Level</th>
+        <th scope="col">Total Tests Taken</th>
+        <th scope="col">Total Correct Answers</th>
+        <th scope="col">Total Wrong Answers</th>
+        <th scope="col">Overall Achievement</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let report of topicDifficultyAnalysisReport; let i = index" [ngClass]="getTableRowClass(i)">
+        <th scope="row">{{ report?.topicName }}</th>
+        <td>{{ report?.difficultyLevel }}</td>
+        <td>{{ report?.totalTestsTaken }}</td>
+        <td>{{ report?.totalCorrectAnswers }}</td>
+        <td>{{ report?.totalWrongAnswers }}</td>
+        <td>{{ report?.overallAchievement }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #noDataTemplate>
+  <div class="alert alert-warning" role="alert">
+    No data available to display.
+  </div>
+</ng-template>

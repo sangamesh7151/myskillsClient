@@ -1,0 +1,83 @@
+<!-- user-test-report.component.html -->
+<div class="container mt-3">
+  <div class="row">
+
+    <!-- Total Tests Created -->
+    <div class="col text-center my-2">
+      <div class="card">
+        <div class="card-body">
+          <i class="bi bi-journal-plus" style="color: #17a2b8;"></i>
+          <h5 class="card-title">{{ userTestReport?.totalTestsCreated }}</h5>
+          <p class="card-text">Total Tests Created</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Tests Skipped -->
+    <div class="col text-center my-2">
+      <div class="card">
+        <div class="card-body">
+          <i class="bi bi-skip-forward-fill" style="color: #dc3545;"></i>
+          <h5 class="card-title">{{ userTestReport?.totalTestsSkipped }}</h5>
+          <p class="card-text">Total Tests Skipped</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Tests Assigned -->
+    <div class="col text-center my-2">
+      <div class="card">
+        <div class="card-body">
+          <i class="bi bi-person-check-fill" style="color: #28a745;"></i>
+          <h5 class="card-title">{{ userTestReport?.totalTestsAssigned }}</h5>
+          <p class="card-text">Total Tests Assigned</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Tests Not Assigned -->
+    <div class="col text-center my-2">
+      <div class="card">
+        <div class="card-body">
+          <i class="bi bi-person-x-fill" style="color: #ffc107;"></i>
+          <h5 class="card-title">{{ userTestReport?.totalTestsNotAssigned }}</h5>
+          <p class="card-text">Total Tests Not Assigned</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Tests In Progress -->
+    <div class="col text-center my-2">
+      <div class="card">
+        <div class="card-body">
+          <i class="bi bi-hourglass-split" style="color: #0dcaf0;"></i>
+          <h5 class="card-title">{{ userTestReport?.totalTestsInProgress }}</h5>
+          <p class="card-text">Total Tests In Progress</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Upcoming Tests -->
+    <div class="col text-center my-2">
+      <div class="card">
+        <div class="card-body">
+          <i class="bi bi-calendar-event-fill" style="color: #6f42c1;"></i>
+          <h5 class="card-title">{{ userTestReport?.totalUpcomingTests }}</h5>
+          <p class="card-text">Total Upcoming Tests</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Tests Completed -->
+    <div class="col text-center my-2">
+      <div class="card">
+        <div class="card-body">
+          <i class="bi bi-check-square-fill" style="color: #198754;"></i>
+          <h5 class="card-title">{{ userTestReport?.totalTestsCompleted }}</h5>
+          <p class="card-text">Total Tests Completed</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

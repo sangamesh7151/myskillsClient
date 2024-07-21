@@ -1,0 +1,126 @@
+<!--<div class="container-fluid px-0 mb-12">
+  <div class="row">-->
+<!-- Performance Summary Card -->
+<!--<div class="col-md-6 grid-margin stretch-card">-->
+<!-- First column: Chart -->
+<!--<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Performance Trend for {{ childName }}</h5>-->
+<!-- Child's name -->
+<!-- Performance Trends (Line Chart) -->
+<!--<div class="chart-container">
+  <canvas id="performanceTrendChart"></canvas>-->
+<!-- Placeholder for the chart -->
+<!--</div>
+    </div>
+  </div>
+</div>
+
+
+<div class="col-md-6 grid-margin stretch-card">-->
+<!-- Second column: Details -->
+<!--<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Performance Details for {{ childName }}</h5>-->
+<!-- Child's name -->
+<!-- Average Test Scores -->
+<!--<div class="mb-3">
+  <h6>Average Test Score</h6>
+  <p>{{ averageTestScore }}%</p>
+</div>-->
+<!-- Subject Breakdown -->
+<!--<div class="mb-3">
+  <h6>Subject Breakdown</h6>
+  <ul class="subject-list">
+    <li>Math: {{ subjectScores.math }}%</li>
+    <li>Science: {{ subjectScores.science }}%</li>
+    <li>English: {{ subjectScores.english }}%</li>
+  </ul>
+</div>-->
+<!-- Best and Worst Performances -->
+<!--<div class="mb-3">
+  <h6>Best and Worst Performances</h6>
+  <p>Best: {{ bestPerformance }}%</p>
+  <p>Worst: {{ worstPerformance }}%</p>
+</div>-->
+<!-- Improvement Suggestions -->
+<!--<div class="mb-3">
+  <h6>Improvement Suggestions</h6>
+  <p>{{ improvementSuggestion }}</p>-->
+<!-- Tips or resources for improvement -->
+<!--</div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>-->
+<!--<div class="container mt-3">
+  <h1 class="mb-4">Child's Performance Overview</h1>
+  <div class="user-info mb-3">
+    <h2>{{ child.name }} - Grade {{ child.grade }}</h2>
+    <p><strong>Overall Performance Trend:</strong> Improving</p>-->
+<!-- Canvas for the performance chart -->
+<!--<canvas #performanceTrendChart></canvas>
+  </div>
+
+  <div *ngIf="!selectedSubject">
+    <h2>Subjects</h2>
+    <div class="list-group">
+      <a *ngFor="let subject of subjects"
+         (click)="selectSubject(subject)"
+         class="list-group-item list-group-item-action">
+        {{ subject.name }}
+      </a>
+    </div>
+  </div>
+
+  <div *ngIf="selectedSubject">
+    <h2>Topics in {{ selectedSubject.name }}</h2>
+    <a (click)="clearSelection()" class="btn btn-info mb-3">Back to All Subjects</a>
+    <div class="list-group">
+      <div *ngFor="let topic of selectedSubject.topics" class="list-group-item">
+        {{ topic.name }} - Score: {{ topic.score }}%
+      </div>
+    </div>
+  </div>
+</div>-->
+
+<div class="container">
+  
+  <div class="user-details">
+    <p><strong>Name:</strong> {{ childInfo.name }}</p>
+    <p><strong>Grade:</strong> {{ childInfo.grade }}</p>
+    <p><strong>Total Tests Taken:</strong> {{ childInfo.totalTestsTaken }}</p>
+    <p><strong>Upcoming Tests:</strong> {{ childInfo.upcomingTests }}</p>
+    <ul>
+      <li *ngFor="let recommendation of childInfo.recommendations">
+        {{ recommendation }}
+      </li>
+    </ul>
+  </div>
+
+  <h2>Subject Performance</h2>
+  <div *ngFor="let performance of subjectPerformances">
+    <h3>{{ performance.subject }}</h3>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar"
+           [style.width]="performance.happiness + '%'"
+           aria-valuenow="{{performance.happiness}}"
+           aria-valuemin="0" aria-valuemax="100">Happiness</div>
+    </div>
+    <div class="progress">
+      <div class="progress-bar bg-info" role="progressbar"
+           [style.width]="performance.confusion + '%'"
+           aria-valuenow="{{performance.confusion}}"
+           aria-valuemin="0" aria-valuemax="100">Confusion</div>
+    </div>
+    <div class="progress">
+      <div class="progress-bar bg-warning" role="progressbar"
+           [style.width]="performance.relevance + '%'"
+           aria-valuenow="{{performance.relevance}}"
+           aria-valuemin="0" aria-valuemax="100">Relevance</div>
+    </div>
+  </div>
+</div>

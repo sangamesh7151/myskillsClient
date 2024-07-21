@@ -1,0 +1,65 @@
+<div class="card">
+  <div class="card-header">
+    <h4>Advanced Search</h4>
+  </div>
+  <div class="card-body">
+    <form #searchForm="ngForm" (ngSubmit)="search()">
+      <!-- Dynamic Filter Rules, each rule in a single row -->
+      <div *ngFor="let rule of filterRules; let i = index" class="d-flex align-items-end mb-2">
+        <!-- Criteria Selector -->
+        <div class="flex-fill mr-1">
+          <ng-select [(ngModel)]="rule.field" name="field{{i}}" [items]="criteria" bindLabel="label" placeholder="Select field" (change)="onCriteriaChange(rule, i)">
+          </ng-select>
+        </div>
+
+
+       
+
+        <!-- Value Field, dynamically changing based on selected criteria -->
+        <div class="flex-fill mr-1">
+          <input *ngIf="rule.field === 'text' || rule.field === 'feedback'" type="text" [(ngModel)]="rule.value" name="value{{i}}" class="form-control" placeholder="Enter value">
+
+          <ng-select *ngIf="rule.field === 'type'" [(ngModel)]="rule.value" name="value{{i}}" [items]="questionTypes"  bindLabel="value"
+                   bindValue="key" placeholder="Select Type"></ng-select>
+
+          <ng-select *ngIf="rule.field === 'difficulty'" [(ngModel)]="rule.value" name="value{{i}}" [items]="difficultyLevels"  bindLabel="value"
+                   bindValue="key" placeholder="Select Difficulty"></ng-select>
+
+          <ng-select *ngIf="rule.field === 'gradeId'" [(ngModel)]="rule.value" name="value{{i}}" [items]="grades"  bindLabel="value"
+                   bindValue="key" placeholder="Select Grade" (change)="onCriteriaChange(rule, i)"></ng-select>
+
+          <ng-select *ngIf="rule.field === 'subjectId'" [(ngModel)]="rule.value" name="value{{i}}" [items]="subjects"   bindLabel="value"
+                   bindValue="key" placeholder="Select Subject" (change)="onCriteriaChange(rule, i)"></ng-select>
+
+          <ng-select *ngIf="rule.field === 'topicId'" [(ngModel)]="rule.value" name="value{{i}}" [items]="topics"   bindLabel="value"
+                   bindValue="key" placeholder="Select Topic"></ng-select>
+        </div>
+
+        <!-- Remove Rule Button -->
+        <div>
+          <button type="button" class="btn btn-danger" (click)="removeRule(i)">Remove</button>
+        </div>
+      </div>
+
+
+      <!-- Add Rule Button with Icon -->
+      <div class="mb-3">
+        <button type="button" class="btn btn-primary" (click)="addRule()">
+          <!-- Adjust according to your icons library -->
+          Add Rule
+        </button>
+      </div>
+
+      <!-- IsActive Checkbox -->
+      <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" id="isActive" [(ngModel)]="isActive" name="isActive">
+        <label class="form-check-label" for="isActive">IsActive</label>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="">
+        <button type="submit" class="btn btn-success">Apply Filter</button>
+      </div>
+    </form>
+  </div>
+</div>

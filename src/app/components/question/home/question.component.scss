@@ -1,0 +1,19 @@
+.active-card {
+  opacity: 1;
+}
+
+.inactive-card {
+  opacity: 0.5;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+.modal-70w {
+  max-width: 70%;
+  margin: auto;
+}
+
+

@@ -1,0 +1,15 @@
+<!-- app-question-control.component.html -->
+<div *ngFor="let question of questionViewModels; let qIndex = index" class="question-container">
+  <!-- Display the question count -->
+  <div class="question-count">Question {{ qIndex + 1 }}</div>
+  <!-- CKEditor instance for the question text -->
+  <ckeditor [editor]="Editor" [data]="question.text" [config]="{toolbar: []}" [readOnly]="true"></ckeditor>
+  <div *ngFor="let option of question.options; let oIndex = index" class="option-container">
+    <!-- Display the option count -->
+    <!--<div class="option-count">{{ qIndex + 1 }}.{{ oIndex + 1 }}</div>-->
+    <!-- Checkbox for the IsCorrect property -->
+    <input type="checkbox" [checked]="option.isCorrect" [disabled]="true">
+    <!-- CKEditor instance for the option text -->
+    <ckeditor [editor]="Editor" [data]="option.optionText" [config]="{toolbar: []}" [readOnly]="true"></ckeditor>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Create Question</h5>
+    <form class="row g-3" [formGroup]="questionForm">
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="inputClass" class="form-label">Class</label>
+          <!--<input type="text" class="form-control" id="inputClass" autocomplete="off" placeholder="Class*">-->
+          <ng-select [items]="grades"
+                     bindLabel="value"
+                     bindValue="key"
+                     placeholder="type to Class"
+                     [(ngModel)]="model.gradeId" name="gread" (change)="onGradeChange(model.gradeId)"  required>
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="inputSubject" class="form-label">Subject</label>
+          <ng-select [items]="subjects"
+                     bindLabel="value"
+                     bindValue="key"
+                     placeholder="type to subject"
+                     [(ngModel)]="model.subjectId" name="subjects" (change)="onTopicChange(model.subjectId)">
+          </ng-select>
+
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="inputTopic" class="form-label">Topic</label>
+          <ng-select [items]="topics"
+                     bindLabel="value"
+                     bindValue="key"
+                     placeholder="type to topics"
+                     [(ngModel)]="model.topicId" name="topics" >
+          </ng-select>
+
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="inputDificultylevel " class="form-label">Dificulty level</label>
+          <ng-select [items]="dificultylevels"
+                     bindLabel="value"
+                     bindValue="key"
+                     placeholder="type to dificultylevels"
+                     [(ngModel)]="model.difficulty" name="Dificulty level" >
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="inputquestionType" class="form-label">Question Type</label>
+          <ng-select [items]="questionTypes"
+                     bindLabel="value"
+                     bindValue="key"
+                     placeholder="type to questionTypes"
+                     [(ngModel)]="model.typeId" name="Question Type">
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="inputTags" class="form-label">Tags</label>
+          <tag-input [(ngModel)]='model.tags'
+                     theme="bootstrap"
+                     [maxItems]="4"  [onlyFromAutocomplete]="true"
+                     placeholder="Insert a inputTags" name="Tag" >
+            <tag-input-dropdown [autocompleteItems]="autocompleteItemsAsObjects"
+                                [displayBy]="'name'"
+                                [identifyBy]="'id'">
+            </tag-input-dropdown>
+          </tag-input>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="inputWeightAge" class="form-label">Weight Age</label>
+          <input class="form-control" type="text" placeholder="WeightAge"  [(ngModel)]="model.weightage" name="WeightAge" required />
+        </div>
+      </div>
+
+      <div class="col-8">
+        <!--<ckeditor [editor]="Editor" formControlName="questionText" id="ck1" name="Editor"></ckeditor>-->
+        <!--<ckeditor [(ngModel)]="editorData"
+    [editor]="Editor"></ckeditor>-->
+        <label for="inputQuestion" class="form-label">Question</label>
+        <ckeditor [(ngModel)]="model.text"
+                  [editor]="Editor" name="ckQuestion"
+                  [config]="{
+    toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote']
+  }"></ckeditor>
+
+      </div>
+
+      <label for="inputQuestion" class="form-label">Choices</label>
+      <div class="row"> <app-option-control></app-option-control></div>
+      <label for="inputQuestion" class="form-label">Answer</label>
+      <ckeditor [(ngModel)]="model.explanation" 
+                [editor]="Editor" name="ckAnswer"
+                [config]="{
+    toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote']
+  }"></ckeditor>
+      <div class="col-12">
+        <button type="button" class="btn btn-primary me-2" (click)="submit()">Submit</button>
+        <button class="btn btn-secondary">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

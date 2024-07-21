@@ -1,0 +1,196 @@
+<!-- test-overall-report.component.html -->
+<!--<div class="container mt-3">
+  <div class="row">-->
+<!-- Number of Tests Created -->
+<!--<div class="col text-center my-2">
+  <div class="card">
+    <div class="card-body">
+      <i class="bi bi-journal-plus" style="color: #0d6efd;"></i>
+      <h5 class="card-title">{{ overallReport?.numberOfTestsCreated }}</h5>
+      <p class="card-text">Tests Created</p>
+      <div class="progress">
+        <div class="progress-bar bg-info" role="progressbar" style="width: 25%;"></div>
+      </div>
+    </div>
+  </div>
+</div>-->
+<!-- Number of Tests Skipped -->
+<!--<div class="col text-center my-2">
+  <div class="card">
+    <div class="card-body">
+      <i class="bi bi-skip-forward-circle" style="color: #198754;"></i>
+      <h5 class="card-title">{{ overallReport?.numberOfTestsSkipped }}</h5>
+      <p class="card-text">Tests Skipped</p>
+      <div class="progress">
+        <div class="progress-bar bg-success" role="progressbar" style="width: 50%;"></div>
+      </div>
+    </div>
+  </div>
+</div>-->
+<!-- Number of Tests Assigned -->
+<!--<div class="col text-center my-2">
+  <div class="card">
+    <div class="card-body">
+      <i class="bi bi-person-check" style="color: #20c997;"></i>
+      <h5 class="card-title">{{ overallReport?.numberOfTestsAssigned }}</h5>
+      <p class="card-text">Tests Assigned</p>
+      <div class="progress">
+        <div class="progress-bar bg-success" role="progressbar" style="width: 50%;"></div>
+      </div>
+    </div>
+  </div>
+</div>-->
+<!-- Number of Tests Not Assigned -->
+<!--<div class="col text-center my-2">
+  <div class="card">
+    <div class="card-body">
+      <i class="bi bi-person-x" style="color: #ffc107;"></i>
+      <h5 class="card-title">{{ overallReport?.numberOfTestsNotAssigned }}</h5>
+      <p class="card-text">Tests Not Assigned</p>
+      <div class="progress">
+        <div class="progress-bar bg-warning" role="progressbar" style="width: 50%;"></div>
+      </div>
+    </div>
+  </div>
+</div>-->
+<!-- Number of Tests In Progress -->
+<!--<div class="col text-center my-2">
+  <div class="card">
+    <div class="card-body">
+      <i class="bi bi-hourglass-split" style="color: #0dcaf0;"></i>
+      <h5 class="card-title">{{ overallReport?.numberOfTestsInProgress }}</h5>
+      <p class="card-text">Tests In Progress</p>
+      <div class="progress">
+        <div class="progress-bar bg-info" role="progressbar" style="width: 50%;"></div>
+      </div>
+    </div>
+  </div>
+</div>-->
+<!-- Number of Upcoming Tests -->
+<!--<div class="col text-center my-2">
+  <div class="card">
+    <div class="card-body">
+      <i class="bi bi-calendar-event" style="color: #6610f2;"></i>
+      <h5 class="card-title">{{ overallReport?.numberOfUpcomingTests }}</h5>
+      <p class="card-text">Upcoming Tests</p>
+      <div class="progress">
+        <div class="progress-bar bg-primary" role="progressbar" style="width: 50%;"></div>
+      </div>
+    </div>
+  </div>
+</div>-->
+<!-- Number of Tests Completed -->
+<!--<div class="col text-center my-2">
+      <div class="card">
+        <div class="card-body">
+          <i class="bi bi-check2-square" style="color: #198754;"></i>
+          <h5 class="card-title">{{ overallReport?.numberOfTestsCompleted }}</h5>
+          <p class="card-text">Tests Completed</p>
+          <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" style="width: 75%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>-->
+
+
+
+
+<div class="container-fluid px-0 mb-3">
+  <div class="row">
+
+    <!-- Total Tests Created Card -->
+    <div class="col-md-3 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-baseline">
+            <h6 class="card-title mb-0">Tests Created</h6>
+            <div ngbDropdown class="mb-2">
+              <button ngbDropdownToggle class="btn no-dropdown-toggle-icon" type="button" id="totalTestsCreatedDropdown">
+                <i class="icon-lg text-muted" data-feather="more-horizontal"></i>
+              </button>
+              <div ngbDropdownMenu aria-labelledby="totalTestsCreatedDropdown">
+                <a ngbDropdownItem href="#" (click)="false"><i data-feather="eye" class="icon-sm me-2"></i> View</a>
+              </div>
+            </div>
+          </div>
+          <div class="statistics">
+            <h3 class="stat-value text-primary">{{ overallReport?.numberOfTestsCreated }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upcoming Tests Card -->
+    <div class="col-md-3 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-baseline">
+            <h6 class="card-title mb-0">Upcoming Tests</h6>
+            <div ngbDropdown class="mb-2">
+              <button ngbDropdownToggle class="btn no-dropdown-toggle-icon" type="button" id="upcomingTestsDropdown">
+                <i class="icon-lg text-muted" data-feather="more-horizontal"></i>
+              </button>
+              <div ngbDropdownMenu aria-labelledby="upcomingTestsDropdown">
+                <a ngbDropdownItem href="#" (click)="false"><i data-feather="eye" class="icon-sm me-2"></i> View</a>
+              </div>
+            </div>
+          </div>
+          <div class="statistics">
+            <h3 class="stat-value text-primary">{{ overallReport?.numberOfUpcomingTests }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total In-Progress Card -->
+    <div class="col-md-3 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-baseline">
+            <h6 class="card-title mb-0">Tests In Progress</h6>
+            <div ngbDropdown class="mb-2">
+              <button ngbDropdownToggle class="btn no-dropdown-toggle-icon" type="button" id="inProgressTestsDropdown">
+                <i class="icon-lg text-muted" data-feather="more-horizontal"></i>
+              </button>
+              <div ngbDropdownMenu aria-labelledby="inProgressTestsDropdown">
+                <a ngbDropdownItem href="#" (click)="false"><i data-feather="eye" class="icon-sm me-2"></i> View</a>
+              </div>
+            </div>
+          </div>
+          <div class="statistics">
+            <h3 class="stat-value text-primary">{{ overallReport?.numberOfTestsInProgress }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tests Not Assigned Card -->
+    <div class="col-md-3 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-baseline">
+            <h6 class="card-title mb-0">Tests Not Assigned</h6>
+            <div ngbDropdown class="mb-2">
+              <button ngbDropdownToggle class="btn no-dropdown-toggle-icon" type="button" id="notAssignedTestsDropdown">
+                <i class="icon-lg text-muted" data-feather="more-horizontal"></i>
+              </button>
+              <div ngbDropdownMenu aria-labelledby="notAssignedTestsDropdown">
+                <a ngbDropdownItem href="#" (click)="false"><i data-feather="eye" class="icon-sm me-2"></i> View</a>
+              </div>
+            </div>
+          </div>
+          <div class="statistics">
+            <h3 class="stat-value text-primary">{{ overallReport?.numberOfTestsNotAssigned }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+

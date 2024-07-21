@@ -1,0 +1,24 @@
+<div class="container" *ngIf="resultQuestion && resultQuestion.length > 0">
+  <div *ngFor="let question of resultQuestion; let qIndex = index" class="card my-3">
+    <div class="card-header">
+      Question {{ question.questionNumber }} of {{ question.totalQuestions }}:
+      <span [ngClass]="{'text-success': question.isCorrectlyAnswered, 'text-danger': !question.isCorrectlyAnswered}">
+        {{ question.isCorrectlyAnswered ? 'Correct' : 'Incorrect' }}
+      </span>
+    </div>
+    <div class="card-body">
+      <p class="card-text">{{ question.questionText }}</p>
+      <ul class="list-group">
+        <li *ngFor="let option of question.options; let oIndex = index" class="list-group-item d-flex justify-content-between align-items-center">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" [id]="'option-' + qIndex + '-' + oIndex" [checked]="option.isSelected" disabled>
+            <label class="custom-control-label" [for]="'option-' + qIndex + '-' + oIndex">{{ option.text }}</label>
+          </div>
+          <span [ngClass]="{'text-success': option.isCorrect, 'text-muted': !option.isCorrect}">
+            ({{ option.isCorrect ? 'Correct' : 'Incorrect' }})
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

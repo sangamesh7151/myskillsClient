@@ -1,0 +1,81 @@
+<div class="container-fluid px-0 mb-3">
+  <div class="row">
+
+    <!-- Recent Activities Card -->
+    <div class="col-md-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-baseline">
+            <h6 class="card-title mb-0">Recent Activities</h6>
+            <div ngbDropdown class="mb-2">
+              <button ngbDropdownToggle class="btn no-dropdown-toggle-icon" type="button" id="recentActivitiesDropdown">
+                <i class="icon-lg text-muted" data-feather="more-horizontal"></i>
+              </button>
+              <div ngbDropdownMenu aria-labelledby="recentActivitiesDropdown">
+                <a ngbDropdownItem href="#" (click)="viewAllActivities()"><i data-feather="eye" class="icon-sm me-2"></i> View More</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="statistics">
+
+            <div *ngFor="let activity of recentActivities | slice:0:3">
+              <i class="fa fa-check-circle text-primary"></i> <!-- Success icon with prime color -->
+              <strong>{{ activity.childName }}</strong>:
+              {{ activity.activityDescription }}
+              on {{ activity.activityDate | date:'MMM d, yyyy' }}
+              <!-- "View Details" for completed tests -->
+
+              <button *ngIf="activity.isCompletedTest" class="btn btn-link" (click)="viewTestDetails(activity)"> <i class="fa fa-eye" aria-hidden="true"></i> View Details</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for Test Details -->
+    <!--<div class="modal fade" id="testDetailsModal" tabindex="-1" role="dialog" aria-labelledby="testDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="testDetailsModalLabel">Test Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="currentTestDetails">-->
+    <!-- Display test details in this section -->
+    <!--<p><strong>Test Name:</strong> {{ currentTestDetails?.testName }}</p>
+          <p><strong>Score:</strong> {{ currentTestDetails.score }}%</p>
+          <p><strong>Completed On:</strong> {{ currentTestDetails.completedOn | date:'MMM d, yyyy' }}</p>
+          <ul>
+            <li *ngFor="let answer of currentTestDetails.answers">
+              <strong>Question:</strong> {{ answer.question }}<br>
+              <strong>Your Answer:</strong> {{ answer.yourAnswer }}<br>
+              <strong>Correct Answer:</strong> {{ answer.correctAnswer }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>-->
+    <div  class="modal fade" bsModal #testViewModal="bs-modal" (onHidden)="onTestDetailsHidden()" [config]="{backdrop: 'static'}" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title float-start"><i class="fa fa-user-plus"></i> OverView</h4>
+
+            <button type="button" class="btn-close float-end fs-sm" title="Close" (click)="testViewModal.hide()"></button>
+          </div>
+          <div class="modal-body" *ngIf="showActivity">
+            <!--<app-subject-analysis-report></app-subject-analysis-report>-->
+            <!--<app-test-result></app-test-result>-->
+            <app-test-result [testId]="currentTestId" [attemptId]="currentAttemptId" [currentUser]="currentUserId"></app-test-result>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

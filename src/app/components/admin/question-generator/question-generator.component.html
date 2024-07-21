@@ -1,0 +1,96 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Create Question</h5>
+    <form class="row g-3">
+      <!-- Class (Grade) Selection -->
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="inputClass" class="form-label">Class</label>
+          <ng-select [items]="grades"
+                     bindLabel="value"
+                     bindValue="key"
+                     placeholder="Select a Class"
+                     [(ngModel)]="model.gradeId" name="grade" (change)="onGradeChange(model.gradeId)" required>
+          </ng-select>
+        </div>
+      </div>
+
+      <!-- Subject Selection -->
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="inputSubject" class="form-label">Subject</label>
+          <ng-select [items]="subjects"
+                     bindLabel="value"
+                     bindValue="key"
+                     placeholder="Select a Subject"
+                     [(ngModel)]="model.subjectId" name="subject" (change)="onSubjectChange(model.subjectId)">
+          </ng-select>
+        </div>
+      </div>
+
+      <!-- Topic Selection -->
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="inputTopic" class="form-label">Topic</label>
+          <ng-select [items]="topics"
+                     bindLabel="value"
+                     bindValue="key"
+                     placeholder="Select a Topic"
+                     [(ngModel)]="model.topicId" name="topic">
+          </ng-select>
+        </div>
+      </div>
+
+      <!-- Difficulty Level Selection -->
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="inputDifficultyLevel" class="form-label">Difficulty Level</label>
+          <ng-select [items]="difficultyLevels"
+                     bindLabel="value"
+                     bindValue="key"
+                     placeholder="Select a Difficulty Level"
+                     [(ngModel)]="model.difficultyLevel" name="difficultyLevel">
+          </ng-select>
+        </div>
+      </div>
+
+      <!-- Question Type Selection -->
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="inputQuestionType" class="form-label">Question Type</label>
+          <ng-select [items]="questionTypes"
+                     bindLabel="value"
+                     bindValue="key"
+                     placeholder="Select a Question Type"
+                     [(ngModel)]="model.questionTypeId" name="questionType">
+          </ng-select>
+        </div>
+      </div>
+
+      <!-- Generate Questions Button -->
+      <div class="col-12">
+        <button type="button" class="btn btn-primary" (click)="generateQuestions()">Generate Questions</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal for Success Message -->
+<div class="modal" tabindex="-1" role="dialog" [style.display]="showModal ? 'block' : 'none'">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Success</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="toggleModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Questions generated successfully!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="toggleModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
