@@ -102,6 +102,12 @@ import { PerformanceSummaryComponent } from './components/controls/parent/perfor
 import { ChildOverviewComponent } from './components/controls/parent/child-overview/child-overview.component';
 import { TestAttemptComponent } from './components/controls/shared/test-attempt/test-attempt.component';
 
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatButtonModule} from '@angular/material/button';
+import { ReactiveFormsModule } from '@angular/forms'; 
+
 @NgModule({
   schemas: [NO_ERRORS_SCHEMA],
   declarations: [
@@ -180,8 +186,12 @@ import { TestAttemptComponent } from './components/controls/shared/test-attempt/
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
     NgChartsModule,
-    NgbModule
-    
+    NgbModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatStepperModule,
+    MatButtonModule,
+    ReactiveFormsModule
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },

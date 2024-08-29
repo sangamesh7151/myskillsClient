@@ -1,6 +1,6 @@
 {
   "name": "quickapp-standard",
-  "version": "6.0.0",
+  "version": "6.0.01",
   "description": "ASP.NET Core 6.0/Angular 14 startup project template with complete login, user and role management. Plus other useful services for Quick Application Development",
   "author": {
     "name": "Ebenezer Monney",
@@ -27,6 +27,7 @@
     "@angular/core": "^14.1.0",
     "@angular/forms": "^14.1.0",
     "@angular/localize": "^14.1.0",
+    "@angular/material": "^14.2.7",
     "@angular/platform-browser": "^14.1.0",
     "@angular/platform-browser-dynamic": "^14.1.0",
     "@angular/router": "^14.1.0",
