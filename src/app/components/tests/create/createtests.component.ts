@@ -8,6 +8,7 @@ import { userToAssignTest } from '../../../models/user/user.model';
 import { AccountService } from '../../../services/account.service';
 import { TestAssignmentViewModel } from '../../../models/assignTest/testAssignment.model';
 import { ActivatedRoute } from '@angular/router';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-createtests',
@@ -104,47 +105,41 @@ export class CreatetestsComponent implements OnChanges {
     // Code to close the modal goes here. This depends on how your modal is implemented.
   }
 
-  //ngOnInit(): void {
-  //  console.log('testid info');
-  //  console.log(this.testId);
-  //  if (this.testId) {
-  //    this.isEditMode = true;
-  //    this.loadTestDetails(this.testId);
-  //  }
-  //  this.getGrades();
-  //  this.getDificultylevels();
-  //  this.prepareStudentLists();
+  ngOnInit(): void {
+   if (this.testId) {
+     this.isEditMode = true;
+     this.loadTestDetails(this.testId);
+   }
+   this.getGrades();
+   this.getDificultylevels();
+   this.prepareStudentLists();
 
 
-  //  //this.testId = this.route.snapshot.params['testId'];
+   this.testId = this.route.snapshot.params['testId'];
 
 
-  //  //this.route.queryParams.subscribe(params => {
-  //  //  this.testId = params['testId'];
+   this.route.queryParams.subscribe(params => {
+    this.testId = params['testId'];
 
-  //  //  console.log('This Is Test Id');
-  //  //  console.log(this.testId);
-  //  //  if (this.testId) {
-  //  //    this.isEditMode = true;
-  //  //    this.loadTestDetails(this.testId);
-  //  //  }
-  //  //  this.getGrades();
-  //  //  this.getDificultylevels();
-  //  //  this.prepareStudentLists();
-  //  //  // You can now use this.testId to load the test details for editing
-  //  //});
+    if (this.testId) {
+      this.isEditMode = true;
+      this.loadTestDetails(this.testId);
+    }
+    this.getGrades();
+    this.getDificultylevels();
+    this.prepareStudentLists();
+    // You can now use this.testId to load the test details for editing
+   });
 
-  //  //console.log('This Is Test Id');
-  //  //console.log(this.testId);
-  //  //if (this.testId) {
-  //  //  this.isEditMode = true;
-  //  //  this.loadTestDetails(this.testId);
-  //  //}
-  //  //this.getGrades();
-  //  //this.getDificultylevels();
-  //  //this.prepareStudentLists();
-  //  //this.getQuestionTypes();
-  //}
+   if (this.testId) {
+    this.isEditMode = true;
+    this.loadTestDetails(this.testId);
+   }
+   this.getGrades();
+   this.getDificultylevels();
+   this.prepareStudentLists();
+  //  this.getQuestionTypes();
+  }
 
   loadTestDetails(testId: number): void {
     if (this.wizardForm) {
@@ -176,8 +171,6 @@ export class CreatetestsComponent implements OnChanges {
 
     this.accountService.getUsersForAssign().subscribe(results => this.onDataLoadSuccessful(results), error => this.onDataLoadFailed(error));
 
-
-    console.log(this.unassignedStudents);
   }
 
   getFormattedDate(date: any): string {
@@ -231,10 +224,7 @@ export class CreatetestsComponent implements OnChanges {
   }
 
   onDataLoadSuccessful(result: any) {
-    console.log(result);
     this.allStudents = result;
-    console.log('gopinath');
-    console.log(result);
     // this.unassignedStudents = this.allStudents.filter(s => !this.assignedStudents.includes(s));
 
     this.unassignedStudents = this.allStudents.filter(student =>
@@ -247,7 +237,6 @@ export class CreatetestsComponent implements OnChanges {
   }
 
   updateAssignedStudents(assigned: userToAssignTest[]) {
-    console.log(assigned);
     this.assignedStudents = assigned;
     //  this.prepareStudentLists(); // Refresh the available and assigned lists
   }
@@ -255,7 +244,6 @@ export class CreatetestsComponent implements OnChanges {
   getGrades(): void {
     this.referenceDataService.getGrades()
       .subscribe(grades => {
-        console.log("grade" + grades);
         this.grades = grades;
         // You can now work with the 'grades' array in your component
       });
@@ -264,7 +252,6 @@ export class CreatetestsComponent implements OnChanges {
   getDificultylevels() {
     this.referenceDataService.getDifficultyLevels()
       .subscribe(difficultyLevels => {
-        console.log("grade" + difficultyLevels);
         this.dificultylevels = difficultyLevels;
         // You can now work with the 'grades' array in your component
       });
@@ -309,7 +296,6 @@ export class CreatetestsComponent implements OnChanges {
   }
 
   onGradeChange(selectedGrade): void {
-    //  console.log("selectedGrade is" + this.findGradeById(selectedGrade));
     this.testModel.grade = this.findGradeValueByKey(selectedGrade);
 
     this.referenceDataService.getSubjects(selectedGrade)
@@ -322,7 +308,6 @@ export class CreatetestsComponent implements OnChanges {
 
 
   onGradeChangeEdit(selectedGrade): void {
-    //  console.log("selectedGrade is" + this.findGradeById(selectedGrade));
     this.testModel.grade = this.findGradeValueByKey(selectedGrade.gradeId);
 
     this.referenceDataService.getSubjects(selectedGrade.gradeId)
@@ -343,7 +328,6 @@ export class CreatetestsComponent implements OnChanges {
       .subscribe(topics => {
         this.topics = topics;
         // this.testModel.topics = selectedGrade.topics;
-        console.log('Topic', this.topics);
         // You can now work with the 'grades' array in your component
       });
   }
@@ -364,8 +348,6 @@ export class CreatetestsComponent implements OnChanges {
             difficulty: isSelected ? this.testModel.topics.find(selectedTopic => selectedTopic.topicId === topic.key).difficulty : ''
           };
         });
-
-        console.log('Topic', this.topics);
       });
   }
 
@@ -388,8 +370,6 @@ export class CreatetestsComponent implements OnChanges {
 
 
   setDifficulty(topic, level) {
-    console.log(topic);
-
     // Toggle the difficulty off if the same level is clicked again
     if (topic.difficulty === level) {
       topic.difficulty = '';
@@ -419,14 +399,11 @@ export class CreatetestsComponent implements OnChanges {
 
     // Force update to trigger Angular change detection
     this.testModel.topics = [...this.testModel.topics];
-    console.log(this.testModel);
   }
 
 
 
   finishFunction() {
-    console.log(this.assignedStudents);
-
     const testAssignment: TestAssignmentViewModel = {
       id: 0, // Set this if needed, otherwise it's set to 0
       testId: 0,
@@ -436,10 +413,8 @@ export class CreatetestsComponent implements OnChanges {
 
     if (!this.isEditMode) {
       this.testModel.testAssignmentViewModel = testAssignment;
-      console.log(this.testModel);
       this.testService.saveTest(this.testModel)
         .subscribe(difficultyLevels => {
-          // console.log("grade" + difficultyLevels);
           this.handleFormSuccess();
           // You can now work with the 'grades' array in your component
         });
@@ -447,7 +422,6 @@ export class CreatetestsComponent implements OnChanges {
       this.testModel.testAssignmentViewModel = testAssignment;
       this.testService.updateTest(this.testModel, this.testId)
         .subscribe(difficultyLevels => {
-          // console.log("grade" + difficultyLevels);
           this.handleFormSuccess();
           // You can now work with the 'grades' array in your component
         });
@@ -456,39 +430,41 @@ export class CreatetestsComponent implements OnChanges {
   }
 
 
-  form1Submit(form1: any) {
+  form1Submit(form1: any,stepper: MatStepper) {
     this.isForm1Submitted = true;
     if (form1.valid) {
-      this.wizardForm.goToNextStep();
+      // this.wizardForm.goToNextStep();
       // Handle the submission of the form
       console.log('Form 1 Data:', this.testModel);
+      stepper.next();
       // Proceed to the next step or perform other actions
     }
 
   }
 
   isAtLeastOneTopicSelected(): boolean {
-    console.log(this.testModel.topics);
     return this.testModel.topics.some(topic =>  topic.difficulty);
   }
 
 
-  form3Submit(form1: any) {
+  form3Submit(form1: any,stepper: MatStepper) {
     this.isForm3Submitted = true;
    
     if (form1.valid && this.isAtLeastOneTopicSelected()) {
-      this.wizardForm.goToNextStep();
+      // this.wizardForm.goToNextStep();
       // Handle the submission of the form
       console.log('Form 1 Data:', this.testModel);
+      stepper.next();
       // Proceed to the next step or perform other actions
     }
   }
 
-  form4Submit(form1: any) {
+  form4Submit(form1: any,stepper: MatStepper) {
     if (form1.valid) {
-      this.wizardForm.goToNextStep();
+      // this.wizardForm.goToNextStep();
       // Handle the submission of the form
       console.log('Form 1 Data:', this.testModel);
+      stepper.next();
       // Proceed to the next step or perform other actions
     }
   }
@@ -496,7 +472,7 @@ export class CreatetestsComponent implements OnChanges {
 
 
   // Function called on submitting the second form
-  form2Submit(form2: any) {
+  form2Submit(form2: any,stepper: MatStepper) {
     this.isForm2Submitted = true;
     // Convert string dates back to Date objects for comparison
     const startDate = new Date(this.testModel.examStartDate);
@@ -507,9 +483,10 @@ export class CreatetestsComponent implements OnChanges {
       return; // Prevent form submission
     }
     if (form2.valid) {
-      this.wizardForm.goToNextStep();
+      // this.wizardForm.goToNextStep();
       // Handle the submission of the form
       console.log('Form 2 Data:', this.user);
+      stepper.next();
       // Proceed to the next step or perform other actions
     }
   }
@@ -525,10 +502,6 @@ export class CreatetestsComponent implements OnChanges {
   showAssignedUsers(test) {
     // this.prepareStudentLists();
     this.testService.getAssignedUsersForTest(test.id).subscribe(results => this.onDataLoadSuccessfulForShowAssignedUser(results, test), error => this.onDataLoadFailedForShowAssignedUser(error));
-
-
-    // this.accountService.getUsersForAssign().subscribe(results => this.onDataLoadSuccessful(results[0]), error => this.onDataLoadFailed(error));
-    console.log(this.testId);
     console.log('Assigned users for test:', test);
     // Add logic to display assigned users
   }
@@ -552,11 +525,6 @@ export class CreatetestsComponent implements OnChanges {
     this.unassignedStudents = this.allStudents.filter(student =>
       !this.assignedStudents.some(assignedStudent => assignedStudent.id === student.id)
     );
-    console.log('onDataLoadSuccessfulForShowAssignedUser');
-    console.log(this.assignedStudents);
-
-    // this.selectedTest = test;
-    // this.showModal();
   }
 
   onDataLoadFailedForShowAssignedUser(result: any) {

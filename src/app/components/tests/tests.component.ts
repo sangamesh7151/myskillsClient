@@ -521,11 +521,11 @@ export class TestsComponent implements OnInit {
   }
 
   navigateToCreateTest() {
-    // this.router.navigate(['/createtests']);
+    this.router.navigate(['/createtests']);
     // setTimeout(() => this.createtestsComponent.resetComponentState(), 0);
     this.testId = null;
     //this.testEditoruser.resetComponentState();
-    this.editorModal.show();
+    // this.editorModal.show();
     //setTimeout(() => {
     //  if (this.createtestsComponent) {
     //    this.createtestsComponent.resetComponentState();

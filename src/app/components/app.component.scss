@@ -79,6 +79,18 @@ footer {
   padding-bottom: 0.4rem;
 }
 
+/* Hide scrollbar for input[type=number] in WebKit browsers (Chrome, Safari, etc.) */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide scrollbar for Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
 
 @media screen and (max-width: 991px) {
   .navbar .nav-pills > li + li {
